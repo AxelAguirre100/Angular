@@ -5,13 +5,15 @@ import { AppComponent } from './app.component';
 import { ToolbarComponent } from './toolbar/toolbar.component';
 import { AsideComponent } from './aside/aside.component';
 import { ContentComponent } from './content/content.component';
+import { AlumnosComponent } from './componentes/alumnos/alumnos.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     ToolbarComponent,
     AsideComponent,
-    ContentComponent
+    ContentComponent,
+    AlumnosComponent,
   ],
   imports: [
     BrowserModule,

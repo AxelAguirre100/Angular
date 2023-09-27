@@ -1,0 +1,5 @@
+<ul>
+    <li *ngFor="let alumno of alumnos" [ngClass]="{'regular': alumno.esAlumnoRegular, 'no-regular': !alumno.esAlumnoRegular}">
+        {{ alumno.nombre }}
+    </li>
+</ul>
