@@ -6,6 +6,8 @@ import { ToolbarComponent } from './toolbar/toolbar.component';
 import { AsideComponent } from './aside/aside.component';
 import { ContentComponent } from './content/content.component';
 import { AlumnosComponent } from './componentes/alumnos/alumnos.component';
+import { FormularioComponent } from './componentes/formulario/formulario.component';
+import { ReactiveFormsModule } from '@angular/forms';
 
 @NgModule({
   declarations: [
@@ -14,10 +16,12 @@ import { AlumnosComponent } from './componentes/alumnos/alumnos.component';
     AsideComponent,
     ContentComponent,
     AlumnosComponent,
+    FormularioComponent,
   ],
   imports: [
     BrowserModule,
-    AppRoutingModule
+    AppRoutingModule,
+    ReactiveFormsModule,
   ],
   providers: [],
   bootstrap: [AppComponent]
