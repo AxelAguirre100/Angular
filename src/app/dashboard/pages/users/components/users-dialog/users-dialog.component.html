@@ -1,4 +1,4 @@
-<h1 mat-dialog-title>{{user ? 'Editar usuario' : 'Crear Usuario'}}</h1>
+<h1 mat-dialog-title>{{ user ? 'Editar usuario' : 'Crear Usuario' }}</h1>
 <div mat-dialog-content>
     <form [formGroup]="userForm" style="height: 50;">
         <div class="row">
@@ -24,14 +24,14 @@
                     <mat-label>Apellido</mat-label>
                     <input formControlName="lastName" matInput />
                     <mat-error>
-                        <ng-container *ngIf="userForm.get('name')?.hasError('required')">
+                        <ng-container *ngIf="userForm.get('lastName')?.hasError('required')">
                             Este campo es requerido
                         </ng-container>
-                        <ng-container *ngIf="userForm.get('name')?.hasError('pattern')">
-                            El nombre no puede contener números<br>   
+                        <ng-container *ngIf="userForm.get('lastName')?.hasError('pattern')">
+                            El apellido no puede contener números<br>   
                         </ng-container>
-                        <ng-container *ngIf="userForm.get('name')?.hasError('minlength')">
-                            El nombre debe tener al menos 4 caracteres<br>
+                        <ng-container *ngIf="userForm.get('lastName')?.hasError('minlength')">
+                            El apellido debe tener al menos 4 caracteres<br>
                         </ng-container>
                     </mat-error>
                 </mat-form-field>
@@ -42,6 +42,14 @@
                     <input formControlName="email" matInput />
                     <mat-error *ngIf="userForm.get('email')?.hasError('required')">El correo electrónico es requerido</mat-error>
                     <mat-error *ngIf="userForm.get('email')?.hasError('email')">El correo electrónico no es válido</mat-error>
+                </mat-form-field>
+            </div>
+            <div class="col-12">
+                <mat-form-field style="width: 400px;">
+                    <mat-label>Edad</mat-label>
+                    <input formControlName="age" matInput type="number" />
+                    <mat-error *ngIf="userForm.get('age')?.hasError('required')">La edad es requerida</mat-error>
+                    <mat-error *ngIf="userForm.get('age')?.hasError('min')">La edad no puede ser un número negativo</mat-error>
                 </mat-form-field>
             </div>
         </div>

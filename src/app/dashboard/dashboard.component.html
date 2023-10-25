@@ -9,11 +9,25 @@
   </mat-toolbar>
     <mat-drawer-container class="example-container">
     <mat-drawer #drawer class="example-sidenav" mode="over">
-      <p>Auto-resizing sidenav</p>
-      <p *ngIf="showFiller" appFontSize>Lorem, ipsum dolor sit amet consectetur.</p>
-      <button (click)="showFiller = !showFiller" mat-raised-button>
-        Toggle extra text
-      </button>
+      <mat-nav-list>
+        <mat-list-item>
+          <a>Home</a>
+        </mat-list-item>
+      
+        <mat-list-item [activated]="true">
+          <a>Usuarios</a>
+        </mat-list-item>
+        <mat-list-item>
+          <a>Cursos</a>
+        </mat-list-item>
+        <mat-list-item>
+          <a>Alumnos</a>
+        </mat-list-item>
+        <mat-list-item>
+          <a>Inscripciones</a>
+        </mat-list-item>
+      </mat-nav-list>
     </mat-drawer>
     <app-users></app-users>
+    <!-- <app-home></app-home> -->
   </mat-drawer-container>

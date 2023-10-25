@@ -4,9 +4,9 @@ import { UsersComponent } from './users.component';
 import { SharedModule } from 'src/app/shared/shared.module';
 import { UsersDialogComponent } from './components/users-dialog/users-dialog.component';
 import { UsersTableComponent } from './components/users-table/users-table.component';
-
-
-
+import { UsersService } from './users.service';
+import { UsersBetterService } from './users-better.service';
+import { MockUsersService } from './mock-users.service';
 
 @NgModule({
   declarations: [
@@ -15,8 +15,12 @@ import { UsersTableComponent } from './components/users-table/users-table.compon
     UsersTableComponent,
   ],
   imports: [
-    CommonModule, SharedModule
+    CommonModule,
+    SharedModule
   ],
-  exports:[UsersComponent],
+  exports: [UsersComponent],
+  providers: [
+    UsersService,
+  ]
 })
 export class UsersModule { }

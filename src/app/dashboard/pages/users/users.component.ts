@@ -1,66 +1,80 @@
-import { Component } from '@angular/core';
-import { MatDialog } from '@angular/material/dialog'
+import { Component, OnInit } from '@angular/core';
+import { MatDialog } from '@angular/material/dialog';
 import { UsersDialogComponent } from './components/users-dialog/users-dialog.component';
 import { User } from './models';
+import { UsersService } from './users.service';
+import { Observable, BehaviorSubject, of } from 'rxjs';
+import { map } from 'rxjs/operators';
 
 @Component({
   selector: 'app-users',
   templateUrl: './users.component.html',
   styleUrls: ['./users.component.scss']
 })
-export class UsersComponent {
-  userName = ''
+export class UsersComponent implements OnInit {
 
-  users: User[] = [
-    {
-      id: 1,
-      name: 'Walter',
-      lastName: 'Gomez',
-      email: 'waltergomez@gmail.com'
-    },
-    {
-      id: 2,
-      name: 'Rodrigo',
-      lastName: 'Lopez',
-      email: 'rodrigo@gmail.com'
-    }
-  ]
+  userName = '';
+  users$: Observable<User[]> = new Observable<User[]>();
+  filteredUsers$: Observable<User[]> = new Observable<User[]>();
+  noUsersMessage = 'No hay usuarios mayores de 25 años.';
+  isFilterActive = false;
 
-  constructor(private matDialog: MatDialog) {}
+  private usersSubject: BehaviorSubject<User[]> = new BehaviorSubject<User[]>([]);
+
+  constructor(private matDialog: MatDialog, private usersService: UsersService) {
+    this.users$ = this.usersSubject.asObservable();
+    this.updateFilteredUsers();
+  }
+
+  ngOnInit() {
+    this.usersService.getUsers().subscribe(users => {
+      this.usersSubject.next(users);
+    });
+  }
+
   openUsersDialog(): void {
     this.matDialog.open(UsersDialogComponent)
-    .afterClosed()
-    .subscribe({
-      next: (v) => {
+      .afterClosed()
+      .subscribe((v) => {
         if (!!v) {
-          this.users = [
-            ...this.users,
-            {
-              ...v,
-              id: Math.floor(Math.random() * 10000), // Genera un ID aleatorio entre 0 y 9999
-            },
-          ];
+          const updatedUsers = this.usersSubject.value.concat({ ...v, id: Math.floor(Math.random() * 10000) });
+          this.usersSubject.next(updatedUsers);
+          this.updateFilteredUsers();
         }
-      }
-    });
+      });
   }
 
   onEditUser(user: User): void {
     this.matDialog.open(UsersDialogComponent, {
       data: user,
-    }).afterClosed().subscribe({
-      next: (v) =>{
-        if (!!v) {
-          const arrayUsuarios = [...this.users]
-          const editadoArrayUsuarios = arrayUsuarios.findIndex((u) => u.id === user.id)
-          arrayUsuarios[editadoArrayUsuarios] = { ...arrayUsuarios[editadoArrayUsuarios], ...v}
-          this.users = [...arrayUsuarios,]
-        }
+    }).afterClosed().subscribe((v) => {
+      if (!!v) {
+        const updatedUsers = this.usersSubject.value.map(u => u.id === user.id ? { ...u, ...v } : u);
+        this.usersSubject.next(updatedUsers);
+        this.updateFilteredUsers();
       }
-    })
+    });
   }
 
   onDeleteUser(userId: number): void {
-    this.users = this.users.filter((u) => u.id !== userId)
+    const updatedUsers = this.usersSubject.value.filter(user => user.id !== userId);
+    this.usersSubject.next(updatedUsers);
+    this.updateFilteredUsers();
+  }
+
+  filterUsersByAge(): void {
+    this.isFilterActive = true;
+    this.updateFilteredUsers();
+  }
+
+  resetFilter(): void {
+    this.isFilterActive = false;
+    this.updateFilteredUsers();
+  }
+
+  private updateFilteredUsers(): void {
+    this.filteredUsers$ = this.users$.pipe(
+      map(users => this.isFilterActive ? users.filter(user => user.age >= 25) : users)
+    );
   }
 }
