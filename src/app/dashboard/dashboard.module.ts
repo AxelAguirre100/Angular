@@ -8,6 +8,9 @@ import {MatToolbarModule} from '@angular/material/toolbar';
 import { FontSizeDirective } from './font.directive.spec';
 import { HomeModule } from './pages/home/home.module';
 import {MatListModule} from '@angular/material/list'
+import { RouterModule } from '@angular/router';
+import { CoursesModule } from './pages/courses/courses.module';
+import { EnrollmentsModule } from './pages/enrollments/enrollments.module';
 @NgModule({
   declarations: [
     DashboardComponent,
@@ -21,6 +24,9 @@ import {MatListModule} from '@angular/material/list'
     MatToolbarModule,
     HomeModule,
     MatListModule,
+    RouterModule,
+    CoursesModule,
+    EnrollmentsModule,
   ],
   exports:[DashboardComponent],
 })

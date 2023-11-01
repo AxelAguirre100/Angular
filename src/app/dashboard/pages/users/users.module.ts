@@ -7,12 +7,14 @@ import { UsersTableComponent } from './components/users-table/users-table.compon
 import { UsersService } from './users.service';
 import { UsersBetterService } from './users-better.service';
 import { MockUsersService } from './mock-users.service';
+import { UserDetailComponent } from './components/user-detail/user-detail.component';
 
 @NgModule({
   declarations: [
     UsersComponent,
     UsersDialogComponent,
     UsersTableComponent,
+    UserDetailComponent,
   ],
   imports: [
     CommonModule,

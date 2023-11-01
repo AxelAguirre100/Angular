@@ -1,0 +1,6 @@
+<h1>Inscripciones</h1>
+
+<div>
+    <button (click)="openEnrollmentModal()" mat-flat-button color="primary">Inscribir</button>
+</div>
+<app-enrollments-table [dataSource]="(enrollments$ | async) || []  "></app-enrollments-table>
