@@ -1,20 +1,21 @@
-<div>
-    <h2>Inscribir alumno en un curso</h2>
-    <form [formGroup]="enrollmentForm" >
-      <div class="form-group">
-        <label for="userId">Selecciona un usuario:</label>
-        <select id="userId" formControlName="userId">
-          <option *ngFor="let user of users" [value]="user.id">{{ user.name }}</option>
-        </select>
-      </div>
-  
-      <div class="form-group">
-        <label for="courseId">Selecciona un curso:</label>
-        <select id="courseId" formControlName="courseId">
-          <option *ngFor="let course of courses" [value]="course.id">{{ course.name }}</option>
-        </select>
-      </div>
-  
-      <button type="submit" [disabled]="enrollmentForm.invalid" (click)="enrollUser()">Inscribirse</button>
-    </form>
-  </div>
+  <h2>Inscribir Usuario</h2>
+
+  <form [formGroup]="enrollmentForm" (ngSubmit)="enrollUser()">
+    <mat-form-field>
+      <mat-label>Nombre del Estudiante</mat-label>
+      <mat-select formControlName="userId">
+        <mat-option *ngFor="let user of users" [value]="user.id">{{ user.name }}</mat-option>
+      </mat-select>
+    </mat-form-field>
+    
+    <mat-form-field>
+      <mat-label>Inscripción a</mat-label>
+      <mat-select formControlName="courseId">
+        <mat-option *ngFor="let course of courses" [value]="course.id">{{ course.name }}</mat-option>
+      </mat-select>
+    </mat-form-field>
+    <mat-error *ngIf="enrollmentForm.invalid && formSubmitted">El usuario ya está inscrito en este curso.</mat-error>
+
+    <button mat-button [mat-dialog-close]="null">Cancelar</button>
+    <button mat-button type="submit" [disabled]="enrollmentForm.invalid">Agregar</button>
+  </form>

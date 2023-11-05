@@ -17,13 +17,13 @@ export class EnrollmentsComponent implements OnInit {
   users: User[] = [];
   courses: Course[] = [];
 
-  constructor(private EnrollmentsService: EnrollmentsService, private dialog: MatDialog) {
-    this.enrollments$ = this.EnrollmentsService.getEnrollments$();
+  constructor(private enrollmentsService: EnrollmentsService, private dialog: MatDialog) {
+    this.enrollments$ = this.enrollmentsService.getEnrollments$();
   }
 
   ngOnInit() {
-    this.EnrollmentsService.getUsers$().subscribe(users => this.users = users);
-    this.EnrollmentsService.getCourses$().subscribe(courses => this.courses = courses);
+    this.enrollmentsService.getUsers$().subscribe(users => this.users = users);
+    this.enrollmentsService.getCourses$().subscribe(courses => this.courses = courses);
   }
 
   openEnrollmentModal(): void {
@@ -31,8 +31,14 @@ export class EnrollmentsComponent implements OnInit {
       width: '400px',
       data: { users: this.users, courses: this.courses },
     });
-  
+
     dialogRef.afterClosed().subscribe(result => {
+      if (result) {
+        this.enrollmentsService.createEnrollmentForUserAndCourse(result.userId, result.courseId).subscribe(enrollments => {
+          console.log('Enrollment creado:', enrollments);
+          this.enrollments$ = this.enrollmentsService.getEnrollments$();
+        });
+      }
       console.log('El modal se cerró');
     });
   }

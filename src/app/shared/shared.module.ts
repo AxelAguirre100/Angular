@@ -1,5 +1,5 @@
 import { NgModule } from '@angular/core';
-import { CommonModule } from '@angular/common';
+import { CommonModule, NgFor } from '@angular/common';
 import { MatIconModule } from '@angular/material/icon';
 import { MatButtonModule } from '@angular/material/button';
 import { ReactiveFormsModule } from '@angular/forms';
@@ -9,6 +9,7 @@ import { MatInputModule } from '@angular/material/input';
 import { FullnamePipe } from './pipes/fullname.pipe'
 import { MatTableModule } from '@angular/material/table';
 import {MatDatepickerModule} from '@angular/material/datepicker';
+import {MatSelectModule} from '@angular/material/select';
 
 @NgModule({
   declarations: [
@@ -27,6 +28,8 @@ import {MatDatepickerModule} from '@angular/material/datepicker';
     FullnamePipe,
     MatTableModule,
     MatDatepickerModule,
+    NgFor,
+    MatSelectModule,
   ]
 })
 export class SharedModule { }

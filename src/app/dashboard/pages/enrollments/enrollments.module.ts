@@ -5,9 +5,6 @@ import { EnrollmentsTableComponent } from './components/enrollments-table/enroll
 import { SharedModule } from 'src/app/shared/shared.module';
 import { EnrollmentDialogComponent } from './components/enrollment-dialog/enrollment-dialog.component';
 
-
-
-
 @NgModule({
   declarations: [
     EnrollmentsComponent,

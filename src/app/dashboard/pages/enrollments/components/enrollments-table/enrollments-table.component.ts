@@ -8,7 +8,8 @@ import { EnrollmentsService } from '../../enrollments.service';
   styleUrls: ['./enrollments-table.component.scss']
 })
 export class EnrollmentsTableComponent implements OnInit {
-  @Input() dataSource: Enrollments[] = [];
+  @Input()
+  dataSource: Enrollments[] = [];
 
   constructor(private enrollmentsService: EnrollmentsService) {}
   displayedColumns = ['id', 'name', 'subscriptionTo', 'actions'];

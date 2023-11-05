@@ -30,6 +30,7 @@ export class CoursesComponent {
     }
   });
  }
+ 
  onDeleteCourse(courseId: number): void{
   this.courses$ = this.coursesServices.deleteCourse$(courseId)
  }

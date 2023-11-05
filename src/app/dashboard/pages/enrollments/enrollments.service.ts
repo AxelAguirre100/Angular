@@ -8,6 +8,9 @@ import { FormBuilder, FormGroup } from "@angular/forms";
 @Injectable({ providedIn: 'root' })
 export class EnrollmentsService {
 
+    private enrollmentsSubject = new BehaviorSubject<Enrollments[]>([]);
+    enrollments$ = this.enrollmentsSubject.asObservable();
+
     users: User[] = [
         {
             id: 1,
@@ -31,7 +34,7 @@ export class EnrollmentsService {
             age: 35,
         },
     ];
-    
+
     courses: Course[] = [
         {
             id: 1,
@@ -72,11 +75,9 @@ export class EnrollmentsService {
     ];
 
     constructor(private fb: FormBuilder) { }
-    
 
     getEnrollments$(): Observable<Enrollments[]> {
-        console.log(this.enrollments)
-        return of(this.enrollments || []);
+        return of(this.enrollments);
     }
 
     getUsers$(): Observable<User[]> {
@@ -89,29 +90,37 @@ export class EnrollmentsService {
         return of(this.courses);
     }
 
-    createEnrollment(enrollmentForm: FormGroup): Observable<Enrollments[]> {
-        if (enrollmentForm.valid) {
-          const userId = parseInt(enrollmentForm.get('userId')?.value, 10); // Convertir a número
-          const courseId = parseInt(enrollmentForm.get('courseId')?.value, 10); // Convertir a número
-      
-          if (!isNaN(userId) && !isNaN(courseId)) { // Verificar que se pudo convertir correctamente
-            const selectedUser = this.users.find(user => user.id === userId);
-            const selectedCourse = this.courses.find(course => course.id === courseId);
-      
-            if (selectedUser && selectedCourse) {
-              const newEnrollment: Enrollments = {
-                id: this.enrollments.length + 1,
-                userName: selectedUser.name,
-                subscriptionTo: selectedCourse.name,
-              };
-              this.enrollments.push(newEnrollment);
-      
-              return of(this.enrollments);
+    updateEnrollments(enrollments: Enrollments[]): void {
+        this.enrollmentsSubject.next(enrollments);
+    }
+
+    createEnrollment$(enrollment: Enrollments): Observable<Enrollments[]> {
+        this.enrollments.push(enrollment);
+        console.log(enrollment);
+        return of([...this.enrollments]);
+    }
+
+    createEnrollmentForUserAndCourse(userId: number, courseId: number): Observable<Enrollments[]> {
+        const user = this.users.find(u => u.id === userId);
+        const course = this.courses.find(c => c.id === courseId);
+    
+        if (user && course) {
+            const existingEnrollment = this.enrollments.find(e => e.userName === `${user.name} ${user.lastName}` && e.subscriptionTo === course.name);
+    
+            if (existingEnrollment) {
+                console.log('El usuario ya está inscrito en este curso.');
+                return of([...this.enrollments]);
+            } else {
+                const enrollment: Enrollments = {
+                    id: this.enrollments.length + 1,
+                    userName: `${user.name} ${user.lastName}`,
+                    subscriptionTo: course.name,
+                };
+                return this.createEnrollment$(enrollment);
             }
-          }
         }
-      
-        return of([]);
-      }
+    
+        return of([...this.enrollments]);
+    }
 
 }
