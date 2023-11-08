@@ -4,6 +4,7 @@ import { EnrollmentsComponent } from './enrollments.component';
 import { EnrollmentsTableComponent } from './components/enrollments-table/enrollments-table.component';
 import { SharedModule } from 'src/app/shared/shared.module';
 import { EnrollmentDialogComponent } from './components/enrollment-dialog/enrollment-dialog.component';
+import { EnrollmentsRoutingModule } from './enrollments-routing.module';
 
 @NgModule({
   declarations: [
@@ -13,7 +14,8 @@ import { EnrollmentDialogComponent } from './components/enrollment-dialog/enroll
   ],
   imports: [
     CommonModule,
-    SharedModule
+    SharedModule,
+    EnrollmentsRoutingModule,
   ]
 })
 export class EnrollmentsModule { }

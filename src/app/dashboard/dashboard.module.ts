@@ -11,6 +11,7 @@ import {MatListModule} from '@angular/material/list'
 import { RouterModule } from '@angular/router';
 import { CoursesModule } from './pages/courses/courses.module';
 import { EnrollmentsModule } from './pages/enrollments/enrollments.module';
+import { DashboardRoutingModule } from './dashboard-routing.module';
 @NgModule({
   declarations: [
     DashboardComponent,
@@ -19,14 +20,11 @@ import { EnrollmentsModule } from './pages/enrollments/enrollments.module';
   imports: [
     CommonModule,
     MatSidenavModule,
-    UsersModule,
     SharedModule,
     MatToolbarModule,
     HomeModule,
     MatListModule,
-    RouterModule,
-    CoursesModule,
-    EnrollmentsModule,
+    DashboardRoutingModule,
   ],
   exports:[DashboardComponent],
 })

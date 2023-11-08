@@ -8,6 +8,7 @@ import { UsersService } from './users.service';
 import { UsersBetterService } from './users-better.service';
 import { MockUsersService } from './mock-users.service';
 import { UserDetailComponent } from './components/user-detail/user-detail.component';
+import { UsersRoutingModule } from './users-routing.module';
 
 @NgModule({
   declarations: [
@@ -18,7 +19,8 @@ import { UserDetailComponent } from './components/user-detail/user-detail.compon
   ],
   imports: [
     CommonModule,
-    SharedModule
+    SharedModule,
+    UsersRoutingModule,
   ],
   exports: [UsersComponent],
   providers: [
