@@ -1,2 +1,11 @@
-<p>login works!</p>
-<button (click)="login()">Iniciar Sesion</button>
+<form [formGroup]="loginForm">
+    <mat-form-field>
+        <mat-label>Email</mat-label>
+        <input formControlName="email" matInput type="email">
+    </mat-form-field>
+    <mat-form-field>
+        <mat-label>Contraseña</mat-label>
+        <input formControlName="password" matInput type="password">
+    </mat-form-field>
+    <button (click)="login()">Iniciar Sesion</button>
+</form>

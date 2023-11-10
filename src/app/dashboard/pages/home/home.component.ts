@@ -15,6 +15,8 @@ export class HomeComponent {
           email: 'asd@asd.com',
           lastName: 'a',
           age: 25,
+          token: "asdasd",
+          role: "ADMIN"
         },
       ]
       setTimeout(() => {

@@ -18,6 +18,8 @@ export class EnrollmentsService {
             lastName: "Perez",
             email: "juan@example.com",
             age: 30,
+            token: "asdasd",
+            role: "ADMIN"
         },
         {
             id: 2,
@@ -25,6 +27,8 @@ export class EnrollmentsService {
             lastName: "Gomez",
             email: "maria@example.com",
             age: 25,
+            token: "asdasd",
+            role: "ADMIN"
         },
         {
             id: 3,
@@ -32,6 +36,8 @@ export class EnrollmentsService {
             lastName: "Rodriguez",
             email: "luis@example.com",
             age: 35,
+            token: "asdasd",
+            role: "ADMIN"
         },
     ];
 

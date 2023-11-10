@@ -16,6 +16,8 @@ export class UsersService {
         lastName: 'Gomez',
         email: 'waltergomez@gmail.com',
         age: 19,
+        token: "asdasd",
+        role: "ADMIN"
       },
       {
         id: 2,
@@ -23,6 +25,8 @@ export class UsersService {
         lastName: 'Lopez',
         email: 'rodrigo@gmail.com',
         age: 26,
+        token: "asdasd",
+        role: "ADMIN"
       },
       {
         id: 3,
@@ -30,6 +34,8 @@ export class UsersService {
         lastName: 'aaa',
         email: 'rodrigo@gmail.com',
         age: 26,
+        token: "asdasd",
+        role: "ADMIN"
       },
     ]);
   }

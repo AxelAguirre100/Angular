@@ -15,6 +15,8 @@ export class MockUsersService {
         lastName: 'Gomez',
         email: 'waltergomez@gmail.com',
         age: 19,
+        token: "asdasd",
+        role: "ADMIN"
       },
       {
         id: 2,
@@ -22,6 +24,8 @@ export class MockUsersService {
         lastName: 'Lopez',
         email: 'rodrigo@gmail.com',
         age:20,
+        token: "asdasd",
+        role: "ADMIN"
       },
     ]
   }

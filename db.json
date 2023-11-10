@@ -1,0 +1,15 @@
+{
+  "users": [
+    {
+      "name": "admin",
+      "lastName": "admin",
+      "email": "fake@mail.com",
+      "age": 19,
+      "password": "123456",
+      "token": "asmldhasojdhuoqwh",
+      "role": "ADMIN",
+      "id": 1
+    }
+  ],
+  "courses": []
+}
