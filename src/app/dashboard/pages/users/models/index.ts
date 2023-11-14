@@ -6,4 +6,5 @@ export interface User {
     age: number;
     token: string;
     role: string;
+    password: string;
 }

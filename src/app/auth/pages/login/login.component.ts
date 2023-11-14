@@ -9,24 +9,21 @@ import { FormControl, FormGroup, Validators } from '@angular/forms';
   styleUrls: ['./login.component.scss']
 })
 export class LoginComponent {
-
-  emailControl = new FormControl(null, [Validators.required, Validators.email]);
-  passwordControl = new FormControl(null, [Validators.required]);
+  emailControl = new FormControl('', [Validators.required, Validators.email]);
+  passwordControl = new FormControl('', [Validators.required]);
 
   loginForm = new FormGroup({
     email: this.emailControl,
     password: this.passwordControl,
-  })
+  });
 
   constructor(private authService: AuthService, private router: Router) {}
 
   login(): void {
-
     if (this.loginForm.invalid) {
       this.loginForm.markAllAsTouched();
     } else {
-      console.log(this.loginForm.value)
-      this.authService.login(this.loginForm.getRawValue())
+      this.authService.login(this.loginForm.getRawValue());
     }
   }
 }
