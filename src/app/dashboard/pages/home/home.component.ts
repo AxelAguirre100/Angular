@@ -16,7 +16,8 @@ export class HomeComponent {
           lastName: 'a',
           age: 25,
           token: "asdasd",
-          role: "ADMIN"
+          role: "ADMIN",
+          password: "123456"
         },
       ]
       setTimeout(() => {

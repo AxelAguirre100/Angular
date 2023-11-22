@@ -1,42 +1,34 @@
 import { Injectable } from '@angular/core';
 import { User } from './models';
-import { of, Observable } from 'rxjs';
+import { of, Observable, concatMap, catchError, throwError } from 'rxjs';
+import { HttpClient } from '@angular/common/http';
+import { environments } from 'src/environments/environments.local';
 
 @Injectable({
   providedIn: 'root'
 })
 export class UsersService {
-  constructor() {}
+  constructor(private httpClient: HttpClient) {}
 
   getUsers(): Observable<User[]> {
-    return of([
-      {
-        id: 1,
-        name: 'Walter',
-        lastName: 'Gomez',
-        email: 'waltergomez@gmail.com',
-        age: 19,
-        token: "asdasd",
-        role: "ADMIN"
-      },
-      {
-        id: 2,
-        name: 'Rodrigo',
-        lastName: 'Lopez',
-        email: 'rodrigo@gmail.com',
-        age: 26,
-        token: "asdasd",
-        role: "ADMIN"
-      },
-      {
-        id: 3,
-        name: 'aaa',
-        lastName: 'aaa',
-        email: 'rodrigo@gmail.com',
-        age: 26,
-        token: "asdasd",
-        role: "ADMIN"
-      },
-    ]);
+    return this.httpClient.get<User[]>(`${environments.baseUrl}/users`);
+  }
+
+  createUser(payload: User): Observable<User[]> {
+    return this.httpClient
+      .post<User>(`${environments.baseUrl}/users`, payload)
+      .pipe(concatMap(() => this.getUsers()));
+  }
+
+  updateUser(userId: number, payload: User): Observable<User[]> {
+    return this.httpClient
+      .put<User>(`${environments.baseUrl}/users/${userId}`, payload)
+      .pipe(concatMap(() => this.getUsers()));
+  }
+
+  deleteUser(userId: number): Observable<void> {
+    return this.httpClient
+      .delete<void>(`${environments.baseUrl}/users/${userId}`)
+      .pipe(catchError((error) => throwError(error)));
   }
 }

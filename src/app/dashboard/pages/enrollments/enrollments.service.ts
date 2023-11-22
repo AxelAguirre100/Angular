@@ -19,7 +19,8 @@ export class EnrollmentsService {
             email: "juan@example.com",
             age: 30,
             token: "asdasd",
-            role: "ADMIN"
+            role: "ADMIN",
+            password: "123456"
         },
         {
             id: 2,
@@ -28,7 +29,8 @@ export class EnrollmentsService {
             email: "maria@example.com",
             age: 25,
             token: "asdasd",
-            role: "ADMIN"
+            role: "ADMIN",
+            password: "123456"
         },
         {
             id: 3,
@@ -37,7 +39,8 @@ export class EnrollmentsService {
             email: "luis@example.com",
             age: 35,
             token: "asdasd",
-            role: "ADMIN"
+            role: "ADMIN",
+            password: "123456"
         },
     ];
 

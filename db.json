@@ -1,14 +1,21 @@
 {
   "users": [
     {
-      "name": "admin",
+      "name": "admina",
       "lastName": "admin",
       "email": "fake@mail.com",
       "age": 19,
-      "password": "123456",
-      "token": "asmldhasojdhuoqwh",
-      "role": "ADMIN",
       "id": 1
+    },
+    {
+      "name": "aasd",
+      "lastName": "aasdasd",
+      "email": "fake@mail.com",
+      "age": 19,
+      "password": "123456",
+      "token": "asmlasdasdwh",
+      "role": "ADMIN",
+      "id": 2
     }
   ],
   "courses": []

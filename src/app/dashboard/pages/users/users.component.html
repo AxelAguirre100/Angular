@@ -1,14 +1,14 @@
-<button (click)="openUsersDialog()" mat-flat-button color="primary">
-    <mat-icon>add</mat-icon>
-    Crear usuario
+<h1>Usuarios</h1>
+
+<button (click)="addUser()" mat-flat-button color="primary">
+  <mat-icon>add</mat-icon>
+  Crear usuario
 </button>
 
-<button (click)="filterUsersByAge()" mat-flat-button color="primary">
-    Filtrar por edad > 25
-</button>
+<!-- {{ testUser | fullname : "lowercase" }} -->
 
-<button (click)="resetFilter()" mat-flat-button color="warn">
-    Restablecer filtro
-</button>
-
-<app-users-table [dataSource]="(filteredUsers$ | async) || []" (deleteUser)="onDeleteUser($event)" (editUser)="onEditUser($event)"></app-users-table>
+<app-users-table
+  [dataSource]="(users$ | async) || []"
+  (editUser)="onEditUser($event)"
+  (deleteUser)="onDeleteUser($event)"
+></app-users-table>
