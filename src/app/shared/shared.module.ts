@@ -10,6 +10,7 @@ import { FullnamePipe } from './pipes/fullname.pipe'
 import { MatTableModule } from '@angular/material/table';
 import {MatDatepickerModule} from '@angular/material/datepicker';
 import {MatSelectModule} from '@angular/material/select';
+import {MatProgressSpinnerModule} from '@angular/material/progress-spinner';
 
 @NgModule({
   declarations: [
@@ -30,6 +31,7 @@ import {MatSelectModule} from '@angular/material/select';
     MatDatepickerModule,
     NgFor,
     MatSelectModule,
+    MatProgressSpinnerModule,
   ]
 })
 export class SharedModule { }

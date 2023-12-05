@@ -1,19 +1,27 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
+import { Store } from '@ngrx/store';
+import { Observable } from 'rxjs';
 import { Enrollments } from '../../models';
-import { EnrollmentsService } from '../../enrollments.service';
+import {
+  selectEnrollments,
+  selectEnrollmentsIsLoading,
+} from '../../store/enrollment.selectors';
 
 @Component({
   selector: 'app-enrollments-table',
   templateUrl: './enrollments-table.component.html',
-  styleUrls: ['./enrollments-table.component.scss']
+  styleUrls: ['./enrollments-table.component.scss'],
 })
-export class EnrollmentsTableComponent implements OnInit {
-  @Input()
-  dataSource: Enrollments[] = [];
+export class EnrollmentsTableComponent {
+  displayedColumns = ['id', 'course', 'user',];
 
-  constructor(private enrollmentsService: EnrollmentsService) {}
-  displayedColumns = ['id', 'name', 'subscriptionTo', 'actions'];
-  ngOnInit() {
+  enrollments$: Observable<Enrollments[]>;
+  isLoading$: Observable<boolean>;
 
+  constructor(private store: Store) {
+    this.enrollments$ = this.store.select(selectEnrollments);
+    this.isLoading$ = this.store.select(selectEnrollmentsIsLoading);
+  
+    this.enrollments$.subscribe(data => console.log('Enrollments Data:', data));
   }
 }

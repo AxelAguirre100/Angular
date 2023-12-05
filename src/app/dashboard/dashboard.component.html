@@ -1,4 +1,3 @@
-
 <mat-toolbar color="primary">
   <p appFontSize>Este párrafo tendrá un tamaño de texto de 30px</p>
     <button (click)="drawer.toggle()" mat-icon-button class="example-icon" aria-label="Example icon-button with menu icon">
@@ -19,12 +18,14 @@
         <mat-list-item routerLink="courses">
           <a>Cursos</a>
         </mat-list-item>
-        <mat-list-item>
-          <a>Alumnos</a>
-        </mat-list-item>
-        <mat-list-item routerLink="enrollments">
-          <a>Inscripciones</a>
-        </mat-list-item>
+        <mat-list-item
+        routerLink="enrollments"
+        routerLinkActive
+        #enrollmentsLink="routerLinkActive"
+        [activated]="enrollmentsLink.isActive"
+      >
+        <a>Inscripciones</a>
+      </mat-list-item>
         <mat-list-item (click)="logout()">
           <a>Cerrar sesion</a>
         </mat-list-item>

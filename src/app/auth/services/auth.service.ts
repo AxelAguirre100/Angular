@@ -1,38 +1,51 @@
 import { Injectable } from '@angular/core';
 import { BehaviorSubject, Observable, of, map } from 'rxjs';
 import { User } from 'src/app/dashboard/pages/users/models';
-import { HttpClient } from '@angular/common/http'
+import { HttpClient } from '@angular/common/http';
 import { environments } from 'src/environments/environments.local';
 import { LoginPayload } from '../models';
 import { Router } from '@angular/router';
+import { Store } from '@ngrx/store';
+import { AuthActions } from 'src/app/store/auth/auth.actions';
+import { selectAuthUser } from 'src/app/store/auth/auth.selectors';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class AuthService {
+  constructor(
+    private httpClient: HttpClient,
+    private router: Router,
+    private store: Store
+  ) {}
 
-  constructor(private httpClient: HttpClient, private router: Router) { }
+  public authUser$: Observable<User | null> = this.store.select(selectAuthUser);
 
-  private _authUser$ = new BehaviorSubject<User | null>(null);
-
-  public authUser$ = this._authUser$.asObservable();
+  private handleAuthUser(authUser: User): void {
+    this.store.dispatch(AuthActions.setAuthUser({ data: authUser }));
+    localStorage.setItem('token', authUser.token);
+  }
 
   login(payload: LoginPayload): void {
+    this.httpClient
+      .get<User[]>(`${environments.baseUrl}/users?email=${payload.email}&password=${payload.password}`)
+      .subscribe({
+        next: (response) => {
+          const authUser = response && response.length ? response[0] : null;
 
-   this.httpClient.get<User[]>(`${environments.baseUrl}/users?email=${payload.email}&password=${payload.password}`).subscribe({
-    next: (response) => {
-      if (!response.length) {
-        alert('usuario o contraseña invalidos')
-      } else {
-        const authUser = response[0]
-        this._authUser$.next(authUser)
-        localStorage.setItem('token', authUser.token)
-        this.router.navigate(['/dashboard/home'])
-        console.log(response)
-        console.log('ok')
-      }
-    },
-   })
+          if (!authUser) {
+            alert('Usuario o contraseña inválidos');
+          } else if (authUser.role === 'STUDENT') {
+            alert('No tienes permiso para acceder');
+          } else {
+            this.handleAuthUser(authUser);
+            this.router.navigate(['/dashboard/home']);
+          }
+        },
+        error: (err) => {
+          alert('Error de conexión');
+        },
+      });
   }
 
   verifyToken(): Observable<boolean>{
@@ -42,8 +55,7 @@ export class AuthService {
           return false
         }else{
           const authUser = users[0]
-          this._authUser$.next(authUser)
-          localStorage.setItem('token', authUser.token)
+          this.handleAuthUser(authUser)
           return true
         }
       })
@@ -51,7 +63,7 @@ export class AuthService {
   }
 
   logout(): void{
-    this._authUser$.next(null);
+    this.store.dispatch(AuthActions.resetState())
     localStorage.removeItem('token')
     this.router.navigate(['/auth/login'])
   }

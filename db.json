@@ -1,22 +1,47 @@
 {
   "users": [
     {
-      "name": "admina",
-      "lastName": "admin",
-      "email": "fake@mail.com",
-      "age": 19,
-      "id": 1
-    },
-    {
       "name": "aasd",
       "lastName": "aasdasd",
       "email": "fake@mail.com",
       "age": 19,
       "password": "123456",
+      "token": "asmlasdasdwhasdasd",
+      "role": "EMPLOYEE",
+      "id": 1
+    },
+    {
+      "name": "aasd",
+      "lastName": "aasdasd",
+      "email": "fakeadmin@mail.com",
+      "age": 19,
+      "password": "123456",
       "token": "asmlasdasdwh",
       "role": "ADMIN",
       "id": 2
+    },
+    {
+      "name": "walters",
+      "lastName": "aasdasd",
+      "email": "fakeestudiante@mail.com",
+      "age": 19,
+      "password": "123456",
+      "token": "asmlasdasdasdwh",
+      "role": "STUDENT",
+      "id": 3
     }
   ],
-  "courses": []
+  "courses": [
+    {
+      "id": 1,
+      "name": "Javascript"
+    }
+  ],
+  "enrollments": [
+    {
+      "id": 1,
+      "courseId": 1,
+      "userId": 3
+    }
+  ]
 }

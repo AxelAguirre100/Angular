@@ -1,63 +1,58 @@
-import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { User } from '../../../users/models';
+import { Component } from '@angular/core';
+import { Store } from '@ngrx/store';
+import { EnrollmentActions } from '../../store/enrollment.actions';
+import {
+  selectCourseOptions,
+  selectIsLoadingDialogOptions,
+  selectStudentOptions,
+} from '../../store/enrollment.selectors';
+import { Observable, take } from 'rxjs';
 import { Course } from '../../../courses/models';
-import { EnrollmentsService } from '../../enrollments.service';
+import { User } from '../../../users/models';
+import { FormControl, FormGroup } from '@angular/forms';
+import { Actions, ofType } from '@ngrx/effects';
 import { MatDialogRef } from '@angular/material/dialog';
 
 @Component({
   selector: 'app-enrollment-dialog',
   templateUrl: './enrollment-dialog.component.html',
-  styleUrls: ['./enrollment-dialog.component.scss']
+  styleUrls: ['./enrollment-dialog.component.scss'],
 })
-export class EnrollmentDialogComponent implements OnInit {
-  enrollmentExists: boolean = false;
-  enrollmentForm: FormGroup;
-  users: User[] = [];
-  courses: Course[] = [];
+export class EnrollmentDialogComponent {
+  userIdControl = new FormControl<number | null>(null);
+  courseIdControl = new FormControl<number | null>(null);
+
+  enrollmentForm = new FormGroup({
+    courseId: this.courseIdControl,
+    userId: this.userIdControl,
+  });
+
+  courseOptions$: Observable<Course[]>;
+  studentOptions$: Observable<User[]>;
+  isLoading$: Observable<boolean>;
 
   constructor(
-    private fb: FormBuilder,
-    private dialogRef: MatDialogRef<EnrollmentDialogComponent>,
-    private enrollmentsService: EnrollmentsService
+    private store: Store,
+    private action$: Actions,
+    private matDialogRef: MatDialogRef<EnrollmentDialogComponent>
   ) {
-    this.enrollmentForm = this.fb.group({
-      userId: [null, Validators.required],
-      courseId: [null, Validators.required],
-      enrollmentExists: [false]
-    });
-  }
+    this.store.dispatch(EnrollmentActions.loadEnrollmentDialogOptions());
+    this.isLoading$ = this.store.select(selectIsLoadingDialogOptions);
+    this.courseOptions$ = this.store.select(selectCourseOptions);
+    this.studentOptions$ = this.store.select(selectStudentOptions);
 
-  ngOnInit(): void {
-    this.enrollmentsService.getUsers$().subscribe(users => {
-      this.users = users;
-    });
-
-    this.enrollmentsService.getCourses$().subscribe(courses => {
-      this.courses = courses;
-    });
-  }
-  
-  formSubmitted: boolean = false;
-  enrollUser(): void {
-    if (this.enrollmentForm && this.enrollmentForm.valid) {
-      this.formSubmitted = true;
-      this.enrollmentForm.markAsTouched();
-      const enrollmentData = this.enrollmentForm.value;
-      this.enrollmentsService.getEnrollments$().subscribe(enrollments => {
-        const existingEnrollment = enrollments.find(enrollment => {
-          return enrollment.userName === `${this.users.find(user => user.id === enrollmentData.userId)?.name} ${this.users.find(user => user.id === enrollmentData.userId)?.lastName}`
-            && enrollment.subscriptionTo === this.courses.find(course => course.id === enrollmentData.courseId)?.name;
-        });
-  
-        if (existingEnrollment) {
-          this.enrollmentForm.setErrors({ enrollmentExists: true });
-          console.log('User is already enrolled in this course.');
-        } else {
-          this.dialogRef.close(enrollmentData);
-          console.log('Enrollment successful.');
-        }
+    this.action$
+      .pipe(ofType(EnrollmentActions.loadEnrollments), take(1))
+      .subscribe({
+        next: () => this.matDialogRef.close(),
       });
-    }
+  }
+
+  onSubmit(): void {
+    this.store.dispatch(
+      EnrollmentActions.createEnrollment({
+        payload: this.enrollmentForm.getRawValue(),
+      })
+    );
   }
 }

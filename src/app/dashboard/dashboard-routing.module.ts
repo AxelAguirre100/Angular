@@ -2,6 +2,7 @@ import { NgModule } from "@angular/core";
 import { RouterModule } from "@angular/router";
 import { HomeComponent } from "./pages/home/home.component";
 import { DashboardComponent } from "./dashboard.component";
+import { adminGuard } from "../core/guards/admin.guard";
 
 @NgModule({
     imports: [
@@ -20,6 +21,7 @@ import { DashboardComponent } from "./dashboard.component";
                     },
                     {
                         path: 'users',
+                        canActivate: [adminGuard],
                         loadChildren: () => import('./pages/users/users.module').then((m) => m.UsersModule)
                     },
                     {
